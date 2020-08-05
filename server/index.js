@@ -1,25 +1,31 @@
 const express = require('express');
 const path = require('path');
+
 const app = express();
 const axios = require('axios');
 
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({ path: '../.env' });
 const randomWords = require('random-words');
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/word', function (req, res) {
-  const wordArr = randomWords({exactly: 1, maxLength: 10});
+  const wordArr = randomWords({ exactly: 1, maxLength: 10 });
   const word = wordArr[0];
 
-  axios.get(`https://www.dictionaryapi.com/api/v3/references/learners/json/${word}?key=${process.env.DICTIONARY_API_KEY}`)
-    .then(data => {
+  axios
+    .get(
+      `https://www.dictionaryapi.com/api/v3/references/learners/json/${word}?key=${process.env.DICTIONARY_API_KEY}`
+    )
+    .then((data) => {
       const audioName = data.data[0].hwi.prs[0].sound.audio;
-      const audioFile = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioName.charAt(0)}/${audioName}.mp3`;
-      res.status(200).send({word, audioFile})
+      const audioFile = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioName.charAt(
+        0
+      )}/${audioName}.mp3`;
+      res.status(200).send({ word, audioFile });
     })
-    .catch(err => res.send(err));
+    .catch((err) => res.send(err));
 });
 
 app.get('/', function (req, res) {
