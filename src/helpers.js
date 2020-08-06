@@ -18,19 +18,11 @@ export const shuffle = (string) => {
 };
 
 export const getWord = async () => {
-  try {
-    const word = await API.getWord();
-    return word;
-  } catch (e) {
-    throw e
-  }
+  const word = await API.getWord();
+  return word;
 };
 
 export const submitWord = async (submission) => {
-  try {
-    const correct = await API.submitWord(submission);
-    return correct;
-  } catch (e) {
-    throw e;
-  }
+  const correct = await API.submitWord(submission);
+  return correct;
 };
