@@ -1,56 +1,92 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import API from './Api';
-import shuffle from './helpers'
 import ReactAudioPlayer from 'react-audio-player';
-
-import {
-  Button,
-  Container,
-  TextField,
-} from '@material-ui/core';
+import { Button, Container, TextField } from '@material-ui/core';
+import {shuffle, submitWord} from './helpers';
 
 function App() {
-
   const [challenge, setChallenge] = useState({});
   const [submission, setSubmission] = useState('');
-  const [error, setError] = useState(false);
+  const [score, setScore] = useState({
+    correct: 0,
+    total: 0
+  })
+  const [error, setError] = useState({});
 
-  useEffect(() => {
-    // Get new word on load
-    API.getWord()
-      .then((res) => {
-        setChallenge({...res.data, shuffled: shuffle(res.data.word)});
+  const handleChange = (event) => {
+    setSubmission(event.target.value)
+  }
+
+  const handleSubmit = () => {
+    submitWord({ word: challenge.word, submitted: submission })
+      .then(() => {
+        setScore({correct: score.correct + 1, total: score.total + 1})
       })
       .catch((e) => {
-        setError(e.response);
+        setScore({...score, total: score.total + 1})
+        setError(e.response.data)
       })
-  }, [])
+  };
 
-  console.log(challenge)
+  const handleRequestWord = () => {
+    setSubmission('');
+    setError({});
+    API.getWord()
+      .then((res) => {
+        setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
+      })
+      .catch((e) => {
+        setError({message: 'Sorry, something went wrong.'});
+      });
+  }
+
+  useEffect(() => {
+    handleRequestWord()
+  }, []);
 
   return (
     <Container>
       Spelling Test
-      <p>Word: {challenge.shuffled}</p>
+      <p>
+        {score.correct} / {score.total}
+      </p>
+      <p>
+        Word:
+        {challenge.shuffled}
+      </p>
       <ReactAudioPlayer src={challenge.audioFile} controls />
-        <form>
-          <TextField
-            autoComplete="off"
-            fullWidth
-            id="submission"
-            variant="filled"
-            type="text"
-          />
+      <form>
+        <TextField
+          onChange={handleChange}
+          value={submission}
+          placeholder={challenge.shuffled}
+          autoComplete="off"
+          fullWidth
+          id="submission"
+          variant="filled"
+          type="text"
+          helperText={error.message}
+          error={!!error.message}
+        />
 
-          <Button
-            variant="contained"
-            disableElevation
-            fullWidth
-          >
-            Submit
-          </Button>
-        </form>
+        <Button
+        onClick={handleSubmit}
+        variant="contained"
+        disableElevation
+        fullWidth
+        disabled={!!error.message}
+      >
+        Submit
+      </Button>
+        <Button
+          onClick={handleRequestWord}
+          variant="contained"
+          disableElevation
+          fullWidth
+        >
+          New word
+        </Button>
+      </form>
     </Container>
   );
 }
