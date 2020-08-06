@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import API from './Api';
+import shuffle from './helpers'
 import ReactAudioPlayer from 'react-audio-player';
 
 import {
@@ -19,17 +20,19 @@ function App() {
     // Get new word on load
     API.getWord()
       .then((res) => {
-        setChallenge(res.data);
+        setChallenge({...res.data, shuffled: shuffle(res.data.word)});
       })
       .catch((e) => {
         setError(e.response);
       })
   }, [])
 
+  console.log(challenge)
+
   return (
     <Container>
       Spelling Test
-      <p>Word: {challenge.word}</p>
+      <p>Word: {challenge.shuffled}</p>
       <ReactAudioPlayer src={challenge.audioFile} controls />
         <form>
           <TextField
