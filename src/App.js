@@ -11,6 +11,7 @@ function App() {
     correct: 0,
     total: 0,
   });
+  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState({});
 
   const handleChange = (event) => {
@@ -18,34 +19,34 @@ function App() {
   };
 
   const handleSubmit = () => {
+    setSubmitted(true);
     submitWord({ word: challenge.word, submitted: submission })
-      .then((res) => {
-        console.log('success! ', res)
+      .then(() => {
         setScore({ correct: score.correct + 1, total: score.total + 1 });
       })
       .catch((e) => {
-        console.log('error: ', e)
         setScore({ ...score, total: score.total + 1 });
         setError(e.response.data);
       });
   };
 
   const handleRequestWord = () => {
-    console.log('inside callback for handle req word');
     setSubmission('');
     setError({});
-    setScore({ ...score, total: score.total + 1 });
+    if (!submitted) setScore({ ...score, total: score.total + 1 });
+    setSubmitted(false);
 
     getWord()
       .then((res) => {
         setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
       })
       .catch(() => {
-        setError({ message: 'Sorry, something went wrong.' });
+        setError({ message: 'Sorry, something went wrong. Try again.' });
       });
   };
 
   useEffect(() => {
+    // Get first word
     if (!challenge.shuffled) {
       getWord()
         .then((res) => {
@@ -76,7 +77,7 @@ function App() {
           id="submission"
           variant="filled"
           type="text"
-          helperText={error.message}
+          helperText={error.message ? `${error.message} The correct spelling is ${error.word}` : ''}
           error={!!error.message}
         />
 
