@@ -11,6 +11,9 @@ const API = {
   getWord: () => {
     return ApiInstance.get(`${URI}word`);
   },
+  submitWord: (submission) => {
+    return ApiInstance.post(`${URI}word`, submission);
+  },
 };
 
 export default API;
