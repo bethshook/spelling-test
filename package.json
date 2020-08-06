@@ -29,7 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src server --fix"
+    "lint": "eslint src server"
   },
   "eslintConfig": {
     "extends": "react-app"
