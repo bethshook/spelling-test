@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import ReactAudioPlayer from 'react-audio-player';
 import { Button, Container, TextField } from '@material-ui/core';
@@ -19,22 +19,34 @@ function App() {
 
   const handleSubmit = () => {
     submitWord({ word: challenge.word, submitted: submission })
-      .then(() => {
+      .then((res) => {
+        console.log('success! ', res)
         setScore({ correct: score.correct + 1, total: score.total + 1 });
       })
       .catch((e) => {
+        console.log('error: ', e)
         setScore({ ...score, total: score.total + 1 });
         setError(e.response.data);
       });
   };
 
-  const handleRequestWord = useCallback(
-    () => {
-      console.log('inside callback for handle req word');
-      setSubmission('');
-      setError({});
-      setScore({ ...score, total: score.total + 1 });
+  const handleRequestWord = () => {
+    console.log('inside callback for handle req word');
+    setSubmission('');
+    setError({});
+    setScore({ ...score, total: score.total + 1 });
 
+    getWord()
+      .then((res) => {
+        setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
+      })
+      .catch(() => {
+        setError({ message: 'Sorry, something went wrong.' });
+      });
+  };
+
+  useEffect(() => {
+    if (!challenge.shuffled) {
       getWord()
         .then((res) => {
           setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
@@ -42,17 +54,8 @@ function App() {
         .catch(() => {
           setError({ message: 'Sorry, something went wrong.' });
         });
-    },
-    [score],
-    setError,
-    setScore,
-    score,
-    setChallenge
-  );
-
-  useEffect(() => {
-    if (!challenge.shuffled) handleRequestWord();
-  }, [handleRequestWord, challenge.shuffled]);
+    }
+  }, [challenge.shuffled]);
 
   return (
     <Container>
