@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const axios = require('axios');
@@ -8,6 +9,7 @@ require('dotenv').config({ path: '../.env' });
 const randomWords = require('random-words');
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/word', function (req, res) {
@@ -23,7 +25,7 @@ app.get('/word', function (req, res) {
       const audioFile = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioName.charAt(
         0
       )}/${audioName}.mp3`;
-      res.status(200).send({ word, audioFile });
+      res.status(200).json({ word, audioFile });
     })
     .catch((err) => res.send(err));
 });
