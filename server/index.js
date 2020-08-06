@@ -45,14 +45,12 @@ app.get('/word', (req, res) => {
 });
 
 app.post('/word', (req, res) => {
-  // code to perform particular action.
-  // To access POST variable use req.body()methods.
   if (req.body.word === req.body.submitted) {
-    res.status(200).json({...req.body, message: 'Correct!'})
+    res.status(200).json({ ...req.body, message: 'Correct!' });
   } else {
     res.status(422).send({
       ...req.body,
-      message: 'Incorrect!'
+      message: 'Incorrect!',
     });
   }
 });
