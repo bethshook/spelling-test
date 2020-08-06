@@ -12,9 +12,19 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.get('/word', function (req, res) {
-  const wordArr = randomWords({ exactly: 1, maxLength: 10 });
+const findWord = (params) => {
+  const wordArr = randomWords(params);
   const word = wordArr[0];
+
+  if (word.length > 4) {
+    return word
+  } else {
+    return findWord(params);
+  }
+}
+
+app.get('/word', function (req, res) {
+  const word = findWord({ exactly: 1, maxLength: 10 });
 
   axios
     .get(
@@ -31,8 +41,6 @@ app.get('/word', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-  // req.query
-  // req.params
   res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
