@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Recursive function checks for words with length > 4
 const findWord = (params) => {
   const wordArr = randomWords(params);
   const word = wordArr[0];
@@ -24,17 +25,16 @@ const findWord = (params) => {
 }
 
 app.get('/word', function (req, res) {
-  const word = findWord({ exactly: 1, maxLength: 10 });
+  const dictWord = findWord({ exactly: 1, maxLength: 10 });
 
   axios
     .get(
-      `https://www.dictionaryapi.com/api/v3/references/learners/json/${word}?key=${process.env.DICTIONARY_API_KEY}`
+      `https://www.dictionaryapi.com/api/v3/references/learners/json/${dictWord}?key=${process.env.DICTIONARY_API_KEY}`
     )
     .then((data) => {
+      const word = (data.data[0].hwi.hw).replace(/\*/g, '');
       const audioName = data.data[0].hwi.prs[0].sound.audio;
-      const audioFile = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioName.charAt(
-        0
-      )}/${audioName}.mp3`;
+      const audioFile = `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioName.charAt(0)}/${audioName}.mp3`;
       res.status(200).json({ word, audioFile });
     })
     .catch((err) => res.send(err));
