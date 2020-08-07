@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactAudioPlayer from 'react-audio-player';
+import Confetti from 'react-confetti';
 import {
   Button,
   Card,
   CardActions,
   CardContent,
   Typography,
+  Zoom,
 } from '@material-ui/core';
-import { Cached } from '@material-ui/icons';
+import { Cached, CheckCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,13 +31,33 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     display: 'block',
   },
+  check: {
+    color: theme.palette.success.main,
+    fontSize: 40,
+    lineHeight: 'inherit',
+    marginLeft: theme.spacing(1),
+  },
+  word: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  incorrect: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: theme.palette.error.main,
+  }
 }));
 
-function WordCard({ word, audio, onRequest }) {
+function WordCard({ word, unscrambled, audio, onRequest, correct, error }) {
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
+      {correct ? (
+        <Confetti recycle={false} />
+      ) : null}
       <CardContent>
         <Typography
           className={classes.label}
@@ -45,8 +67,13 @@ function WordCard({ word, audio, onRequest }) {
         >
           Unscramble the letters to spell the word. Play the audio for a hint.
         </Typography>
-        <Typography variant="h2" component="h3" gutterBottom>
-          {word}
+        <Typography className={error? classes.incorrect : classes.word} variant="h2" component="h3" gutterBottom>
+          {correct || error ? unscrambled : word}
+          {correct ? (
+            <Zoom in={correct}>
+              <CheckCircle className={classes.check} />
+            </Zoom>
+          ) : null}
         </Typography>
         <ReactAudioPlayer className={classes.audio} src={audio} controls />
       </CardContent>

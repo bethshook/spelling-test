@@ -1,9 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 
-const slang = '#2099f9';
-const lightGray = '#EFEFEF';
-
 // Custom theme, refer to https://material-ui.com/customization/default-theme/ for a list of options
 const theme = createMuiTheme({
   spacing: 8,
