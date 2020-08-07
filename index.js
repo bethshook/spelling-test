@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const regeneratorRuntime = require("regenerator-runtime");
 
 const app = express();
 const axios = require('axios');
@@ -59,9 +58,9 @@ app.post('/api/word', (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
+// });
 
 // "catchall" handler: for any other request, send index.html
 app.get('*', (req, res) => {
