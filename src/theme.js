@@ -1,13 +1,20 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import deepOrange from '@material-ui/core/colors/deepOrange';
-import indigo from '@material-ui/core/colors/indigo';
+import teal from '@material-ui/core/colors/teal';
 
-const colorBlack = '#141313';
-const colorCream = '#F7F5F2';
+const slang = '#2099f9';
+const lightGray = '#EFEFEF';
 
 // Custom theme, refer to https://material-ui.com/customization/default-theme/ for a list of options
 const theme = createMuiTheme({
   spacing: 8,
+  palette: {
+    primary: {
+      main: teal[500],
+    },
+    // background: {
+    //   default: lightGray,
+    // }
+  }
 });
 
 export default theme;

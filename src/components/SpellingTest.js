@@ -12,12 +12,18 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     marginBottom: theme.spacing(3),
   },
-  title: {
+  label: {
     fontSize: 14,
   },
   action: {
     display: 'flex',
     justifyContent: 'center'
+  },
+  buttonIcon: {
+    marginLeft: theme.spacing(1),
+  },
+  input: {
+    backgroundColor: 'white'
   }
 }));
 
@@ -77,12 +83,12 @@ function SpellingTest() {
   }, [challenge.shuffled]);
 
   return (
-    <Container>
+    <Container maxWidth="sm">
       <p>{`${score.correct} / ${score.total}`}</p>
       <Card className={classes.root}>
         <CardContent>
-          <Typography className={classes.title} color="textSecondary" component="h1" gutterBottom>
-            Spelling Test
+          <Typography className={classes.label} color="textSecondary" component="h1" gutterBottom>
+            Unscramble the letters to spell the word.
           </Typography>
           <Typography variant="h3" component="h2" gutterBottom>
             {challenge.shuffled}
@@ -90,20 +96,21 @@ function SpellingTest() {
           <ReactAudioPlayer src={challenge.audioFile} controls />
         </CardContent>
         <CardActions className={classes.action}>
-          <Button size="medium" onClick={handleRequestWord}>
-            New Word <Cached marginLeft={1} />
+          <Button size="medium" onClick={handleRequestWord} endIcon={<Cached color="primary" />}>
+            New Word
           </Button>
         </CardActions>
       </Card>
       <form>
         <TextField
           onChange={handleChange}
+          variant="outlined"
+          className={classes.input}
           value={submission}
           placeholder={challenge.shuffled}
           autoComplete="off"
           fullWidth
           id="submission"
-          variant="filled"
           type="text"
           helperText={error.message}
           error={!!error.message}
@@ -111,9 +118,10 @@ function SpellingTest() {
 
         <Button
           onClick={handleSubmit}
+          color="primary"
+          size="large"
           variant="contained"
           disableElevation
-          fullWidth
           disabled={!!error.message}
         >
           Submit
