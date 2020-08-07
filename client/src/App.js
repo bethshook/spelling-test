@@ -18,10 +18,10 @@ const useStyles = makeStyles(() => ({
   },
   link: {
     color: 'inherit',
-    "&:hover": {
-      textDecoration: 'none'
-    }
-  }
+    '&:hover': {
+      textDecoration: 'none',
+    },
+  },
 }));
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
             data-cy="site-title"
           >
             <Link href="/" className={classes.link}>
-            Spelling Test
+              Spelling Test
             </Link>
           </Typography>
           <Button color="inherit" href="https://www.linkedin.com/in/bethshook/">

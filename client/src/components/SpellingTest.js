@@ -202,13 +202,12 @@ function SpellingTest() {
             : null}
           {feedback.incorrect ? (
             <>
-              <Zoom in={true}>
+              <Zoom in>
                 <Error className={classes.errorIcon} />
               </Zoom>
-            {feedback.message}
+              {feedback.message}
             </>
-            )
-          : null}
+          ) : null}
         </Typography>
       </form>
     </Container>

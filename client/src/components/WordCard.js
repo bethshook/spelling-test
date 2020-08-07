@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   wordContainer: {
     height: 110,
-  }
+  },
 }));
 
 function WordCard({
@@ -80,23 +80,27 @@ function WordCard({
           Unscramble the letters to spell the word. Play the audio for a hint.
         </Typography>
         <Box className={classes.wordContainer}>
-        <Typography
-          className={error ? classes.incorrect : classes.word}
-          variant="h2"
-          component="h3"
-          data-cy="word"
-          gutterBottom
-        >
-          {fetching ? <CircularProgress size='4rem' />
-            : (correct || error ? unscrambled : word)
-          }
+          <Typography
+            className={error ? classes.incorrect : classes.word}
+            variant="h2"
+            component="h3"
+            data-cy="word"
+            gutterBottom
+          >
+            {fetching ? (
+              <CircularProgress size="4rem" />
+            ) : correct || error ? (
+              unscrambled
+            ) : (
+              word
+            )}
 
-          {correct ? (
-            <Zoom in={correct}>
-              <CheckCircle className={classes.check} />
-            </Zoom>
-          ) : null}
-        </Typography>
+            {correct ? (
+              <Zoom in={correct}>
+                <CheckCircle className={classes.check} />
+              </Zoom>
+            ) : null}
+          </Typography>
         </Box>
         <ReactAudioPlayer className={classes.audio} src={audio} controls />
       </CardContent>
@@ -105,9 +109,7 @@ function WordCard({
           size="medium"
           onClick={onRequest}
           disabled={fetching}
-          endIcon={
-            <Cached color="primary" />
-          }
+          endIcon={<Cached color="primary" />}
         >
           New Word
         </Button>
