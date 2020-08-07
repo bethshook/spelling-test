@@ -10,11 +10,11 @@
 /coverage
 
 # production
-/build
+/client/build
 
 #testing
 client/cypress/videos
-clientcypress/screenshots
+client/cypress/screenshots
 client/cypress/support
 
 # misc
