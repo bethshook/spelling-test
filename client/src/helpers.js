@@ -16,13 +16,3 @@ export const shuffle = (string) => {
   const strShuffled = shuffled.join('');
   return strShuffled;
 };
-
-export const getWord = async () => {
-  const word = await API.getWord();
-  return word;
-};
-
-export const submitWord = async (submission) => {
-  const correct = await API.submitWord(submission);
-  return correct;
-};
