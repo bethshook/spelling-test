@@ -11,8 +11,9 @@ module.exports = {
   ],
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-indent": "off",
+    "react/jsx-one-expression-per-line": "off",
   },
   "env": {
     "browser": true,

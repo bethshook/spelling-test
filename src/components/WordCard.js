@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactAudioPlayer from 'react-audio-player';
 import Confetti from 'react-confetti';
 import {
@@ -6,6 +7,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CircularProgress,
   Typography,
   Zoom,
 } from '@material-ui/core';
@@ -40,24 +42,30 @@ const useStyles = makeStyles((theme) => ({
   word: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   incorrect: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     color: theme.palette.error.main,
-  }
+  },
 }));
 
-function WordCard({ word, unscrambled, audio, onRequest, correct, error }) {
+function WordCard({
+  word,
+  unscrambled,
+  audio,
+  fetching,
+  onRequest,
+  correct,
+  error,
+}) {
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
-      {correct ? (
-        <Confetti recycle={false} />
-      ) : null}
+      {correct ? <Confetti recycle={false} /> : null}
       <CardContent>
         <Typography
           className={classes.label}
@@ -67,7 +75,12 @@ function WordCard({ word, unscrambled, audio, onRequest, correct, error }) {
         >
           Unscramble the letters to spell the word. Play the audio for a hint.
         </Typography>
-        <Typography className={error? classes.incorrect : classes.word} variant="h2" component="h3" gutterBottom>
+        <Typography
+          className={error ? classes.incorrect : classes.word}
+          variant="h2"
+          component="h3"
+          gutterBottom
+        >
           {correct || error ? unscrambled : word}
           {correct ? (
             <Zoom in={correct}>
@@ -81,7 +94,13 @@ function WordCard({ word, unscrambled, audio, onRequest, correct, error }) {
         <Button
           size="medium"
           onClick={onRequest}
-          endIcon={<Cached color="primary" />}
+          endIcon={
+            fetching ? (
+              <CircularProgress size={18} />
+            ) : (
+              <Cached color="primary" />
+            )
+          }
         >
           New Word
         </Button>
@@ -89,5 +108,25 @@ function WordCard({ word, unscrambled, audio, onRequest, correct, error }) {
     </Card>
   );
 }
+
+WordCard.propTypes = {
+  word: PropTypes.string,
+  unscrambled: PropTypes.string,
+  audio: PropTypes.string,
+  fetching: PropTypes.bool,
+  onRequest: PropTypes.func,
+  error: PropTypes.bool,
+  correct: PropTypes.bool,
+};
+
+WordCard.defaultProps = {
+  word: '',
+  unscrambled: '',
+  audio: '',
+  fetching: false,
+  onRequest: () => {},
+  error: false,
+  correct: false,
+};
 
 export default WordCard;

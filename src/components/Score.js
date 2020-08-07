@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   label: {
@@ -12,24 +13,35 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     textAlign: 'center',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
 }));
 
-function Score({ className, correct, total }) {
+function Score({ correct, total }) {
   const classes = useStyles();
 
   return (
     <Box className={classes.score}>
       <Box>
-      <Typography className={classes.label}
-                  color="textSecondary">Score</Typography>
-    <Typography variant="h5">
-      {correct} / {total}
-</Typography>
+        <Typography className={classes.label} color="textSecondary">
+          Score
+        </Typography>
+        <Typography variant="h5">
+          {correct} /{total}
+        </Typography>
       </Box>
     </Box>
   );
 }
+
+Score.propTypes = {
+  correct: PropTypes.number,
+  total: PropTypes.number,
+};
+
+Score.defaultProps = {
+  correct: 0,
+  total: 0,
+};
 
 export default Score;

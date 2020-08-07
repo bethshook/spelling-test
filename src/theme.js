@@ -21,7 +21,7 @@ const theme = createMuiTheme({
         marginBottom: '0.5em',
       },
     },
-  }
+  },
 });
 
 export default theme;

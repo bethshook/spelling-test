@@ -6,7 +6,7 @@ import {
   InputAdornment,
   TextField,
   Typography,
-  Zoom
+  Zoom,
 } from '@material-ui/core';
 import { CheckCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -65,6 +65,7 @@ function SpellingTest() {
     correct: 0,
     total: 0,
   });
+  const [fetching, setFetching] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState({
     correct: false,
@@ -77,48 +78,63 @@ function SpellingTest() {
   };
 
   const handleSubmit = () => {
-    setFeedback({...feedback, correct: false});
+    setFeedback({ ...feedback, correct: false });
     setSubmitted(true);
     submitWord({ word: challenge.word, submitted: submission })
       .then(() => {
-        setFeedback({...feedback, correct: true});
+        setFeedback({ ...feedback, correct: true });
         setScore({ correct: score.correct + 1, total: score.total + 1 });
-
       })
       .catch((e) => {
         setScore({ ...score, total: score.total + 1 });
-        setFeedback({...feedback, incorrect: true, message: e.response.data.message})
+        setFeedback({
+          ...feedback,
+          incorrect: true,
+          message: e.response.data.message,
+        });
       });
   };
 
   const handleRequestWord = () => {
+    setFetching(true);
     setSubmission('');
-    setFeedback({...feedback, incorrect: false, message: ''});
+    setFeedback({ ...feedback, incorrect: false, message: '' });
     if (!submitted) setScore({ ...score, total: score.total + 1 });
     setSubmitted(false);
 
     getWord()
       .then((res) => {
-        setFeedback({...feedback, correct: false, incorrect: false});
+        setFetching(false);
+        setFeedback({ ...feedback, correct: false, incorrect: false });
         setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
       })
       .catch(() => {
-        setFeedback({ ...feedback, message: 'Something went wrong. Please try again.' });
+        setFetching(false);
+        setFeedback({
+          ...feedback,
+          message: 'Something went wrong. Please try again.',
+        });
       });
   };
 
   useEffect(() => {
     // Get first word
     if (!challenge.shuffled) {
+      setFetching(true);
       getWord()
         .then((res) => {
+          setFetching(false);
           setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
         })
         .catch(() => {
-          setFeedback({...feedback, message: 'Something went wrong. Please try again.' });
+          setFetching(false);
+          setFeedback({
+            ...feedback,
+            message: 'Something went wrong. Please try again.',
+          });
         });
     }
-  }, [challenge.shuffled]);
+  }, [challenge.shuffled, feedback]);
 
   return (
     <Container maxWidth="sm">
@@ -127,6 +143,7 @@ function SpellingTest() {
         word={challenge.shuffled}
         unscrambled={challenge.word}
         audio={challenge.audioFile}
+        fetching={fetching}
         onRequest={handleRequestWord}
         correct={feedback.correct}
         error={feedback.incorrect}
@@ -140,12 +157,12 @@ function SpellingTest() {
                 input: classes.input,
               },
               endAdornment: feedback.correct ? (
-              <InputAdornment position="end">
-                <Zoom in={feedback.correct}>
-              <CheckCircle className={classes.check} />
-                </Zoom>
-              </InputAdornment>
-              ) : null
+                <InputAdornment position="end">
+                  <Zoom in={feedback.correct}>
+                    <CheckCircle className={classes.check} />
+                  </Zoom>
+                </InputAdornment>
+              ) : null,
             }}
             variant="outlined"
             value={submission}
@@ -169,13 +186,19 @@ function SpellingTest() {
             Submit
           </Button>
         </Box>
-        <Typography variant="h6" className={feedback.correct ? classes.success : classes.error}>
-          {feedback.correct ? successMessages[Math.floor(Math.random() * 3)] : null}
-            {feedback.incorrect ? (
-              <>
-                {feedback.message} The correct spelling is <Box className={classes.corrected}>{challenge.word}</Box>
-              </>
-              ) : null}
+        <Typography
+          variant="h6"
+          className={feedback.correct ? classes.success : classes.error}
+        >
+          {feedback.correct
+            ? successMessages[Math.floor(Math.random() * 3)]
+            : null}
+          {feedback.incorrect ? (
+            <>
+              {feedback.message} The correct spelling is{' '}
+              <Box className={classes.corrected}>{challenge.word}</Box>
+            </>
+          ) : null}
         </Typography>
       </form>
     </Container>
