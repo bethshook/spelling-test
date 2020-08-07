@@ -8,7 +8,7 @@ import {
   Typography,
   Zoom,
 } from '@material-ui/core';
-import { CheckCircle } from '@material-ui/icons';
+import { CheckCircle, Error } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import WordCard from './WordCard';
 import Score from './Score';
@@ -40,7 +40,12 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: theme.palette.error.main,
     fontWeight: 400,
-    display: 'inline',
+    display: 'inline-flex',
+    alignItems: 'center',
+  },
+  errorIcon: {
+    color: theme.palette.error.main,
+    marginRight: theme.spacing(1),
   },
   corrected: {
     fontWeight: 500,
@@ -98,7 +103,7 @@ function SpellingTest() {
   const handleRequestWord = () => {
     setFetching(true);
     setSubmission('');
-    setFeedback({ ...feedback, message: '' });
+    setFeedback({ ...feedback, incorrect: false, message: '' });
     if (!submitted) setScore({ ...score, total: score.total + 1 });
     setSubmitted(false);
 
@@ -198,10 +203,13 @@ function SpellingTest() {
             : null}
           {feedback.incorrect ? (
             <>
-              {feedback.message} The correct spelling is{' '}
-              <Box className={classes.corrected}>{challenge.word}</Box>
+              <Zoom in={true}>
+                <Error className={classes.errorIcon} />
+              </Zoom>
+            {feedback.message}
             </>
-          ) : null}
+            )
+          : null}
         </Typography>
       </form>
     </Container>

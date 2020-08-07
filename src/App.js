@@ -4,6 +4,7 @@ import {
   AppBar,
   Button,
   CssBaseline,
+  Link,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -15,6 +16,12 @@ const useStyles = makeStyles(() => ({
   title: {
     flexGrow: 1,
   },
+  link: {
+    color: 'inherit',
+    "&:hover": {
+      textDecoration: 'none'
+    }
+  }
 }));
 
 function App() {
@@ -25,8 +32,15 @@ function App() {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="h1" className={classes.title} data-cy="site-title">
+          <Typography
+            variant="h6"
+            component="h1"
+            className={classes.title}
+            data-cy="site-title"
+          >
+            <Link href="/" className={classes.link}>
             Spelling Test
+            </Link>
           </Typography>
           <Button color="inherit" href="https://www.linkedin.com/in/bethshook/">
             About Beth

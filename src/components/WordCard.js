@@ -96,6 +96,7 @@ function WordCard({
         <Button
           size="medium"
           onClick={onRequest}
+          disabled={fetching}
           endIcon={
             fetching ? (
               <CircularProgress size={18} />

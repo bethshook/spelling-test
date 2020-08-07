@@ -52,7 +52,7 @@ app.post('/word', (req, res) => {
   } else {
     res.status(422).send({
       ...req.body,
-      message: 'Incorrect!',
+      message: `Incorrect! The correct answer is: ${req.body.word}`,
     });
   }
 });
