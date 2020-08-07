@@ -58,14 +58,10 @@ app.post('/api/word', (req, res) => {
   }
 });
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
-// });
-
-// app.get('/*', function(req, res, next){
-//   res.setHeader('Last-Modified', (new Date()).toUTCString());
-//   next();
-// });
+app.get('/*', function(req, res, next){
+  res.setHeader('Last-Modified', (new Date()).toUTCString());
+  next();
+});
 
 // "catchall" handler: for any other request, send index.html
 app.get('*', (req, res) => {
