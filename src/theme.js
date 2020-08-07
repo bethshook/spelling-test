@@ -1,56 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import indigo from '@material-ui/core/colors/indigo';
+
+const colorBlack = '#141313';
+const colorCream = '#F7F5F2';
 
 // Custom theme, refer to https://material-ui.com/customization/default-theme/ for a list of options
 const theme = createMuiTheme({
-  palette: {
-    common: {
-      black: colorBlack,
-      white: '#fff',
-    },
-    background: {
-      paper: '#FFF',
-      default: colorCream,
-    },
-    primary: {
-      main: deepOrange[700],
-      light: deepOrange[500],
-    },
-    secondary: {
-      main: indigo[700],
-    },
-    text: {
-      primary: colorBlack,
-    },
-    action: {
-      active: '#434242',
-      selected: deepOrange[50],
-    },
-  },
-  typography: {
-    fontFamily: 'Inter, -apple-system, Arial',
-    h3: {
-      fontWeight: 500,
-    },
-    h4: {
-      fontWeight: 500,
-    },
-    h5: {
-      fontWeight: 500,
-    },
-    button: {
-      fontWeight: 550,
-    },
-    overline: {
-      fontWeight: 600,
-    },
-  },
-  shape: {
-    borderRadius: 10,
-  },
-
-  overrides: {
-    //
-  },
+  spacing: 8,
 });
 
 export default theme;

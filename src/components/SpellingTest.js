@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, Container, TextField, Typography } from '@material-ui/core';
+import { Cached } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { getWord, shuffle, submitWord } from '../helpers';
 
 const useStyles = makeStyles((theme) => ({
-  //
+  root: {
+    minWidth: 275,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginBottom: theme.spacing(3),
+  },
+  title: {
+    fontSize: 14,
+  },
+  action: {
+    display: 'flex',
+    justifyContent: 'center'
+  }
 }));
 
 function SpellingTest() {
@@ -65,13 +78,23 @@ function SpellingTest() {
 
   return (
     <Container>
-      Spelling Test
       <p>{`${score.correct} / ${score.total}`}</p>
-      <p>
-        Word:
-        {challenge.shuffled}
-      </p>
-      <ReactAudioPlayer src={challenge.audioFile} controls />
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary" component="h1" gutterBottom>
+            Spelling Test
+          </Typography>
+          <Typography variant="h3" component="h2" gutterBottom>
+            {challenge.shuffled}
+          </Typography>
+          <ReactAudioPlayer src={challenge.audioFile} controls />
+        </CardContent>
+        <CardActions className={classes.action}>
+          <Button size="medium" onClick={handleRequestWord}>
+            New Word <Cached marginLeft={1} />
+          </Button>
+        </CardActions>
+      </Card>
       <form>
         <TextField
           onChange={handleChange}
@@ -94,15 +117,6 @@ function SpellingTest() {
           disabled={!!error.message}
         >
           Submit
-        </Button>
-        <Button
-          onClick={handleRequestWord}
-          variant="contained"
-          color="primary"
-          disableElevation
-          fullWidth
-        >
-          New word
         </Button>
       </form>
     </Container>

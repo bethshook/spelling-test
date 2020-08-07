@@ -1,17 +1,17 @@
 import React from 'react';
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import SpellingTest from './components/SpellingTest';
 import theme from './theme';
 
 function App() {
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <SpellingTest />
-      </ThemeProvider>
+      </MuiThemeProvider>
     </>
   );
 }
