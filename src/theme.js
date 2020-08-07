@@ -11,15 +11,20 @@ const theme = createMuiTheme({
     primary: {
       main: teal[500],
     },
-    // background: {
-    //   default: lightGray,
-    // }
   },
   typography: {
     h5: {
-      color: teal[500],
+      color: teal[700],
+      fontWeight: 500,
     },
   },
+  overrides: {
+    MuiTypography: {
+      gutterBottom: {
+        marginBottom: '0.5em',
+      },
+    },
+  }
 });
 
 export default theme;

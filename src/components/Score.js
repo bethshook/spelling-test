@@ -1,31 +1,34 @@
 import React from 'react';
-import { Box, Container } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  score: {
-    margin: theme.spacing(2),
-    textAlign: 'right',
+  label: {
+    fontSize: 14,
   },
-  num: {
-    display: 'inline',
-    backgroundColor: theme.palette.primary.main,
-    color: 'white',
-    width: 50,
-    height: 50,
+  score: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
+    marginRight: theme.spacing(1),
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'flex-end'
   },
 }));
 
-function Score({ correct, total }) {
+function Score({ className, correct, total }) {
   const classes = useStyles();
 
   return (
-    <>
-      <Box className={classes.num}>{correct}</Box> out of
-      <Box className={classes.num}>{total}</Box>
-{' '}
-words
-</>
+    <Box className={classes.score}>
+      <Box>
+      <Typography className={classes.label}
+                  color="textSecondary">Score</Typography>
+    <Typography variant="h5">
+      {correct} / {total}
+</Typography>
+      </Box>
+    </Box>
   );
 }
 

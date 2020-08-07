@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   TextField,
-  Typography,
 } from '@material-ui/core';
 import { CheckCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     marginLeft: theme.spacing(2),
-  },
-  score: {
-    margin: theme.spacing(2),
-    textAlign: 'right',
   },
   num: {
     display: 'inline',
@@ -59,6 +54,7 @@ function SpellingTest() {
     submitWord({ word: challenge.word, submitted: submission })
       .then(() => {
         setScore({ correct: score.correct + 1, total: score.total + 1 });
+
       })
       .catch((e) => {
         setScore({ ...score, total: score.total + 1 });
