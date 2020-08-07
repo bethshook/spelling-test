@@ -12,8 +12,9 @@ import { CheckCircle, Error } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import WordCard from './WordCard';
 import Score from './Score';
-import { getWord, shuffle, submitWord } from '../helpers';
+import { shuffle } from '../helpers';
 import successMessages from '../constants';
+import API from "../Api";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -85,7 +86,7 @@ function SpellingTest() {
   const handleSubmit = () => {
     setFeedback({ ...feedback, correct: false });
     setSubmitted(true);
-    submitWord({ word: challenge.word, submitted: submission })
+    API.submitWord({ word: challenge.word, submitted: submission })
       .then(() => {
         setFeedback({ ...feedback, correct: true });
         setScore({ correct: score.correct + 1, total: score.total + 1 });
@@ -107,7 +108,7 @@ function SpellingTest() {
     if (!submitted) setScore({ ...score, total: score.total + 1 });
     setSubmitted(false);
 
-    getWord()
+    API.getWord()
       .then((res) => {
         setFetching(false);
         setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
@@ -125,7 +126,7 @@ function SpellingTest() {
     // Get first word
     if (!challenge.shuffled) {
       setFetching(true);
-      getWord()
+      API.getWord()
         .then((res) => {
           setFetching(false);
           setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });

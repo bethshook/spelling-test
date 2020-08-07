@@ -1,5 +1,3 @@
-import API from './Api';
-
 // ES6 shuffle algorithm from https://stackoverflow.com/a/62713319/10491722
 export const shuffle = (string) => {
   const shuffled = [...string];
@@ -15,14 +13,4 @@ export const shuffle = (string) => {
 
   const strShuffled = shuffled.join('');
   return strShuffled;
-};
-
-export const getWord = async () => {
-  const word = await API.getWord();
-  return word;
-};
-
-export const submitWord = async (submission) => {
-  const correct = await API.submitWord(submission);
-  return correct;
 };
