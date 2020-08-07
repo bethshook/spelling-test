@@ -134,7 +134,7 @@ function SpellingTest() {
           });
         });
     }
-  }, [challenge.shuffled, feedback]);
+  }, [challenge.shuffled, feedback, setFetching, setChallenge, setFeedback]);
 
   return (
     <Container maxWidth="sm">
