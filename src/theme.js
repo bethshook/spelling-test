@@ -14,7 +14,12 @@ const theme = createMuiTheme({
     // background: {
     //   default: lightGray,
     // }
-  }
+  },
+  typography: {
+    h5: {
+      color: teal[500],
+    },
+  },
 });
 
 export default theme;

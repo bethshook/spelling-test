@@ -1,30 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import ReactAudioPlayer from 'react-audio-player';
-import { Button, Card, CardActions, CardContent, Container, TextField, Typography } from '@material-ui/core';
-import { Cached } from '@material-ui/icons';
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import { CheckCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import WordCard from './WordCard';
+import Score from './Score';
 import { getWord, shuffle, submitWord } from '../helpers';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: 275,
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    marginBottom: theme.spacing(3),
-  },
-  label: {
-    fontSize: 14,
-  },
-  action: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
   buttonIcon: {
     marginLeft: theme.spacing(1),
   },
+  form: {
+    display: 'flex',
+  },
   input: {
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+    fontSize: 24,
+  },
+  submit: {
+    marginLeft: theme.spacing(2),
+  },
+  score: {
+    margin: theme.spacing(2),
+    textAlign: 'right',
+  },
+  num: {
+    display: 'inline',
+    backgroundColor: theme.palette.primary.main,
+    color: 'white',
+    width: 50,
+    height: 50,
+  },
 }));
 
 function SpellingTest() {
@@ -84,48 +96,44 @@ function SpellingTest() {
 
   return (
     <Container maxWidth="sm">
-      <p>{`${score.correct} / ${score.total}`}</p>
-      <Card className={classes.root}>
-        <CardContent>
-          <Typography className={classes.label} color="textSecondary" component="h1" gutterBottom>
-            Unscramble the letters to spell the word.
-          </Typography>
-          <Typography variant="h3" component="h2" gutterBottom>
-            {challenge.shuffled}
-          </Typography>
-          <ReactAudioPlayer src={challenge.audioFile} controls />
-        </CardContent>
-        <CardActions className={classes.action}>
-          <Button size="medium" onClick={handleRequestWord} endIcon={<Cached color="primary" />}>
-            New Word
-          </Button>
-        </CardActions>
-      </Card>
+      <Score correct={score.correct} total={score.total} />
+      <WordCard
+        word={challenge.shuffled}
+        audio={challenge.audioFile}
+        onRequest={handleRequestWord}
+      />
       <form>
-        <TextField
-          onChange={handleChange}
-          variant="outlined"
-          className={classes.input}
-          value={submission}
-          placeholder={challenge.shuffled}
-          autoComplete="off"
-          fullWidth
-          id="submission"
-          type="text"
-          helperText={error.message}
-          error={!!error.message}
-        />
+        <Box className={classes.form}>
+          <TextField
+            onChange={handleChange}
+            InputProps={{
+              classes: {
+                input: classes.input,
+              },
+            }}
+            variant="outlined"
+            value={submission}
+            placeholder={challenge.shuffled}
+            autoComplete="off"
+            fullWidth
+            id="submission"
+            type="text"
+            helperText={error.message}
+            error={!!error.message}
+          />
 
-        <Button
-          onClick={handleSubmit}
-          color="primary"
-          size="large"
-          variant="contained"
-          disableElevation
-          disabled={!!error.message}
-        >
-          Submit
-        </Button>
+          <Button
+            onClick={handleSubmit}
+            className={classes.submit}
+            color="primary"
+            size="large"
+            variant="contained"
+            disableElevation
+            disabled={!!error.message}
+          >
+            Submit
+          </Button>
+        </Box>
       </form>
     </Container>
   );
