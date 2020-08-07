@@ -103,14 +103,13 @@ function SpellingTest() {
   const handleRequestWord = () => {
     setFetching(true);
     setSubmission('');
-    setFeedback({ ...feedback, incorrect: false, message: '' });
+    setFeedback({ ...feedback, correct: false, incorrect: false, message: '' });
     if (!submitted) setScore({ ...score, total: score.total + 1 });
     setSubmitted(false);
 
     getWord()
       .then((res) => {
         setFetching(false);
-        setFeedback({ ...feedback, correct: false, incorrect: false });
         setChallenge({ ...res.data, shuffled: shuffle(res.data.word) });
       })
       .catch(() => {

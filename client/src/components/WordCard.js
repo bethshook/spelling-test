@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactAudioPlayer from 'react-audio-player';
 import Confetti from 'react-confetti';
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -50,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     color: theme.palette.error.main,
   },
+  wordContainer: {
+    height: 110,
+  }
 }));
 
 function WordCard({
@@ -75,6 +79,7 @@ function WordCard({
         >
           Unscramble the letters to spell the word. Play the audio for a hint.
         </Typography>
+        <Box className={classes.wordContainer}>
         <Typography
           className={error ? classes.incorrect : classes.word}
           variant="h2"
@@ -82,14 +87,17 @@ function WordCard({
           data-cy="word"
           gutterBottom
         >
-          {!word && !unscrambled ? <CircularProgress size={36} /> : null}
-          {correct || error ? unscrambled : word}
+          {fetching ? <CircularProgress size='4rem' />
+            : (correct || error ? unscrambled : word)
+          }
+
           {correct ? (
             <Zoom in={correct}>
               <CheckCircle className={classes.check} />
             </Zoom>
           ) : null}
         </Typography>
+        </Box>
         <ReactAudioPlayer className={classes.audio} src={audio} controls />
       </CardContent>
       <CardActions className={classes.action}>
@@ -98,11 +106,7 @@ function WordCard({
           onClick={onRequest}
           disabled={fetching}
           endIcon={
-            fetching ? (
-              <CircularProgress size={18} />
-            ) : (
-              <Cached color="primary" />
-            )
+            <Cached color="primary" />
           }
         >
           New Word

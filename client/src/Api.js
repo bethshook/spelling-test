@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URI = 'http://localhost:8080/';
+const URI = 'http://localhost:8080/api/';
 
 const ApiInstance = axios.create({
   timeout: 10000,
@@ -9,6 +9,8 @@ const ApiInstance = axios.create({
 
 const API = {
   getWord: () => {
+    console.log('getting word')
+    console.log(`${URI}word`)
     return ApiInstance.get(`${URI}word`);
   },
   submitWord: (submission) => {

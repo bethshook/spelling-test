@@ -6,14 +6,15 @@ const bodyParser = require('body-parser');
 const app = express();
 const axios = require('axios');
 
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: './.env' });
 const randomWords = require('random-words');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../public')));
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Recursive function checks for words with length > 4
 const findWord = (params) => {
@@ -27,7 +28,7 @@ const findWord = (params) => {
 };
 
 // GET a word selected from random-words lib from Dictionary API
-app.get('/word', (req, res) => {
+app.get('/api/word', (req, res) => {
   const dictWord = findWord({ exactly: 1, maxLength: 10 });
 
   axios
@@ -46,7 +47,7 @@ app.get('/word', (req, res) => {
 });
 
 // POST user answer and check against challenge word
-app.post('/word', (req, res) => {
+app.post('/api/word', (req, res) => {
   if (req.body.word === req.body.submitted) {
     res.status(200).json({ ...req.body, message: 'Correct!' });
   } else {
@@ -58,7 +59,15 @@ app.post('/word', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
 });
 
-app.listen(process.env.PORT || 8080);
+// "catchall" handler: for any other request, send index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port);
+
+console.log(`Spelling test listening on ${port}`);
