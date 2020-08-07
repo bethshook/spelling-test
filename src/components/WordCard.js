@@ -81,6 +81,7 @@ function WordCard({
           component="h3"
           gutterBottom
         >
+          {!word && !unscrambled ? <CircularProgress size={36} /> : null}
           {correct || error ? unscrambled : word}
           {correct ? (
             <Zoom in={correct}>

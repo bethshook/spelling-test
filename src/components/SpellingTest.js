@@ -98,7 +98,7 @@ function SpellingTest() {
   const handleRequestWord = () => {
     setFetching(true);
     setSubmission('');
-    setFeedback({ ...feedback, incorrect: false, message: '' });
+    setFeedback({ ...feedback, message: '' });
     if (!submitted) setScore({ ...score, total: score.total + 1 });
     setSubmitted(false);
 
