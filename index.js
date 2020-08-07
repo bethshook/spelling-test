@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const regeneratorRuntime = require("regenerator-runtime");
 
 const app = express();
 const axios = require('axios');
