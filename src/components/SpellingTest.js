@@ -172,6 +172,7 @@ function SpellingTest() {
             id="submission"
             type="text"
             error={feedback.incorrect}
+            data-cy="input"
           />
 
           <Button
@@ -182,11 +183,13 @@ function SpellingTest() {
             variant="contained"
             disableElevation
             disabled={submitted}
+            data-cy="submit"
           >
             Submit
           </Button>
         </Box>
         <Typography
+          data-cy="helper-text"
           variant="h6"
           className={feedback.correct ? classes.success : classes.error}
         >

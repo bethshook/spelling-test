@@ -79,6 +79,7 @@ function WordCard({
           className={error ? classes.incorrect : classes.word}
           variant="h2"
           component="h3"
+          data-cy="word"
           gutterBottom
         >
           {!word && !unscrambled ? <CircularProgress size={36} /> : null}

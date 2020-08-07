@@ -26,6 +26,7 @@ const findWord = (params) => {
   return findWord(params);
 };
 
+// GET a word selected from random-words lib from Dictionary API
 app.get('/word', (req, res) => {
   const dictWord = findWord({ exactly: 1, maxLength: 10 });
 
@@ -44,6 +45,7 @@ app.get('/word', (req, res) => {
     .catch((err) => res.send(err));
 });
 
+// POST user answer and check against challenge word
 app.post('/word', (req, res) => {
   if (req.body.word === req.body.submitted) {
     res.status(200).json({ ...req.body, message: 'Correct!' });

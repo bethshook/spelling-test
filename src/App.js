@@ -25,7 +25,7 @@ function App() {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="h1" className={classes.title}>
+          <Typography variant="h6" component="h1" className={classes.title} data-cy="site-title">
             Spelling Test
           </Typography>
           <Button color="inherit" href="https://www.linkedin.com/in/bethshook/">
