@@ -1,7 +1,5 @@
-import API from './Api';
-
 // ES6 shuffle algorithm from https://stackoverflow.com/a/62713319/10491722
-export const shuffle = (string) => {
+const shuffle = (string) => {
   const shuffled = [...string];
 
   // Define function to return random value from i to N
@@ -16,3 +14,5 @@ export const shuffle = (string) => {
   const strShuffled = shuffled.join('');
   return strShuffled;
 };
+
+export default shuffle;
