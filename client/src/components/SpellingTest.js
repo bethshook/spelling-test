@@ -86,14 +86,15 @@ function SpellingTest() {
   const handleSubmit = () => {
     setFeedback({ ...feedback, correct: false });
     setSubmitted(true);
-    const word = challenge.word.toLowerCase();
 
-    API.submitWord({ word, submitted: submission })
-      .then(() => {
+    API.submitWord({ word: challenge.word, submitted: submission.toLowerCase() })
+      .then((res) => {
+        console.log(res)
         setFeedback({ ...feedback, correct: true });
         setScore({ correct: score.correct + 1, total: score.total + 1 });
       })
       .catch((e) => {
+        console.log(e)
         setScore({ ...score, total: score.total + 1 });
         setFeedback({
           ...feedback,
